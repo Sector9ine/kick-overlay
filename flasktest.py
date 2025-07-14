@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 CLIENT_ID = os.environ.get('CLIENT_ID')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
-REDIRECT_URI = 'https://kick-overlay-production.up.railway.app'
+REDIRECT_URI = 'https://kick-overlay-production.up.railway.app/callback'
 HOST_URL = 'https://id.kick.com'
 API_URL = 'https://api.kick.com'
 
