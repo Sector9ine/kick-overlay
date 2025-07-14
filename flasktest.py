@@ -1,4 +1,3 @@
-from nt import access
 from flask import Flask, request, jsonify
 import requests
 from urllib.parse import urlencode
