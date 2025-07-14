@@ -179,7 +179,7 @@ def webhook():
 @app.route('/test-overlay')
 def test_overlay():
     """Serve the test overlay HTML"""
-    with open('M:/vscode_projects/kick/test_overlay.html', 'r') as f:
+    with open('test_overlay.html', 'r') as f:
         content = f.read()
     
     # Add headers to skip ngrok browser warning
