@@ -179,6 +179,9 @@ def webhook():
 @app.route('/test-overlay')
 def test_overlay():
     """Serve the test overlay HTML"""
+    
+    print("CWD:", os.getcwd())
+    print("Files:", os.listdir(os.getcwd()))
     with open('test_overlay.html', 'r') as f:
         content = f.read()
     
