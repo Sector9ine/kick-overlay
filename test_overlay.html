@@ -14,39 +14,22 @@
         }
         
         .test-message {
-            background: rgba(0,0,0,0.7);
-            border-radius: 10px;
-            padding: 15px;
+            background: rgba(217, 0, 255, 0.7);
+            border-radius: 15px;
+            padding: 10px;
             margin: 10px 0;
-            border-left: 4px solid #31D6C2;
-            animation: pulse 2s infinite;
         }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+
     </style>
 </head>
 <body>
     <div class="test-message">
-        🎉 TEST OVERLAY WORKING! 🎉
+        calories consumed:
     </div>
-    <div class="test-message">
-        Chat messages will appear here
-    </div>
-    <div class="test-message">
-        Current time: <span id="time"></span>
     </div>
 
     <script>
-        // Update time every second
-        function updateTime() {
-            document.getElementById('time').textContent = new Date().toLocaleTimeString();
-        }
-        updateTime();
-        setInterval(updateTime, 1000);
+
     </script>
 </body>
 </html> 
