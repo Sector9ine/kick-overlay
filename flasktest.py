@@ -142,6 +142,7 @@ def setup():
     }
     r = requests.get(f'{API_URL}/public/v1/channels', headers=headers)
     data = r.json()
+    print(data)
     user_id = data['data'][0]['broadcaster_user_id']
     return f'''
     <p><a href=/subscribe>Subscribe to Webhook</a></p>
