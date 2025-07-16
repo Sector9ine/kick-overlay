@@ -11,14 +11,20 @@
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
             font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         
         .test-message {
             background: rgba(217, 0, 255, 0.7);
             border-radius: 15px;
             padding: 10px;
-            margin: 10px 0;
-            width: 25%
+            margin: 10px auto;   /* auto left/right centers the box */
+            width: 25%;
+            box-sizing: border-box;
+            text-align: center;  /* optional: center text inside the box */
         }
 
     </style>
