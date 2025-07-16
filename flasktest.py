@@ -205,7 +205,6 @@ def webhook():
         print(data)
         content = data['content']
         sender = data.get('sender', {})
-        sender_username = sender.get('username', '')
         if (
             is_broadcaster(sender) or is_moderator(sender)
         ) and content.startswith('!calories'):

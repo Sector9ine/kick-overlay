@@ -12,7 +12,6 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
             font-size: 24px;
         }
-        
         .test-message {
             background: rgba(217, 0, 255, 0.7);
             border-radius: 15px;
@@ -20,12 +19,24 @@
             text-align: center;
             display: inline-block;
         }
-
     </style>
 </head>
 <body>
     <div class="test-message">
-        calories consumed:
+        calories consumed: <span id="calories">0</span>
     </div>
+    <script>
+        async function fetchCalories() {
+            try {
+                const response = await fetch('/calories');
+                const data = await response.json();
+                document.getElementById('calories').textContent = data.calories;
+            } catch (e) {
+                document.getElementById('calories').textContent = '...';
+            }
+        }
+        fetchCalories();
+        setInterval(fetchCalories, 2000); // Update every 2 seconds
+    </script>
 </body>
 </html> 
