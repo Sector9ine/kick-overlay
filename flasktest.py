@@ -1,13 +1,37 @@
 from flask import Flask, request, jsonify
 import requests
 from urllib.parse import urlencode
+from urllib.parse import urlparse
 import secrets
 import base64
 import hashlib
 import json
 import os
+import mysql.connector
+
+def get_db_connection():
+    url = os.environ['DATABASE_URL']
+    # Example: mysql://user:pass@host:port/dbname
+    parsed = urlparse(url)
+    return mysql.connector.connect(
+        host=parsed.hostname,
+        user=parsed.username,
+        password=parsed.password,
+        database=parsed.path.lstrip('/'),
+        port=parsed.port or 3306
+    )
+
+def init_db():
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('CREATE TABLE IF NOT EXISTS calories (id INT PRIMARY KEY, value VARCHAR(255))')
+    c.execute('INSERT IGNORE INTO calories (id, value) VALUES (1, "0")')
+    conn.commit()
+    conn.close()
 
 app = Flask(__name__)
+
+init_db()
 
 CLIENT_ID = os.environ.get('CLIENT_ID')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
