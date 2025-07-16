@@ -203,8 +203,7 @@ def webhook():
         ) and content.startswith('!calories'):
             try:
                 value = content.split(' ', 1)[1]
-                if value.isdigit():
-                    value = int(value)  # or int(value) if you only want integers
+                value = int(value)  # or int(value) if you only want integers
 
                 conn = get_db_connection()
                 c = conn.cursor()
