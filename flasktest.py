@@ -185,6 +185,7 @@ def webhook():
         
         # Parse JSON data
         data = request.json or {}
+        print(data)
         content = data['content']
         print(content)
         return 'ok'
