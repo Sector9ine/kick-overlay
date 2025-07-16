@@ -187,6 +187,14 @@ def is_moderator(sender):
             return True
     return False
 
+def is_broadcaster(sender):
+    identity = sender.get('identity', {})
+    badges = identity.get('badges', [])
+    for badge in badges:
+        if badge.get('type') == 'broadcaster':
+            return True
+    return False
+
 @app.route('/webhook', methods=['POST', 'GET'])
 def webhook():
     global stream_owner
@@ -199,7 +207,7 @@ def webhook():
         sender = data.get('sender', {})
         sender_username = sender.get('username', '')
         if (
-            sender_username.lower() == stream_owner.lower() or is_moderator(sender)
+            is_broadcaster(sender) or is_moderator(sender)
         ) and content.startswith('!calories'):
             try:
                 value = content.split(' ', 1)[1]
