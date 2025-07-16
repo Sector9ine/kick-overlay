@@ -215,8 +215,7 @@ def webhook():
                 conn = get_db_connection()
                 c = conn.cursor()
                 # Fetch the current value
-                x = c.execute('SELECT value FROM calories WHERE id = 1')
-                print(x)
+                c.execute('SELECT value FROM calories WHERE id = 1')
                 row = c.fetchone()
                 current = int(row[0]) if row and row[0] is not None else 0
 
@@ -255,6 +254,16 @@ def test_overlay():
     response = app.response_class(content, mimetype='text/html')
     response.headers['ngrok-skip-browser-warning'] = 'true'
     return response
+
+@app.route('/calories')
+def get_calories():
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('SELECT value FROM calories WHERE id = 1')
+    row = c.fetchone()
+    calories = int(row[0]) if row and row[0] is not None else 0
+    conn.close()
+    return jsonify({'calories': calories})
 
 if __name__ == '__main__':
     import os
