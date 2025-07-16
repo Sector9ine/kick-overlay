@@ -135,7 +135,7 @@ def callback():
 
 @app.route('/setup')
 def setup():
-    global access_token, user_id
+    global access_token, user_id, stream_owner
     
     headers = {
         'Authorization': f'Bearer {access_token}'
@@ -144,6 +144,7 @@ def setup():
     data = r.json()
     print(data)
     user_id = data['data'][0]['broadcaster_user_id']
+    stream_owner = data['data'][0]['slug']
     return f'''
     <p><a href=/subscribe>Subscribe to Webhook</a></p>
     <p><a href=/webhook>Monitor Chat</a></p>'''
@@ -178,17 +179,50 @@ def subscribe():
     <p><a href="/webhook">Monitor Chat</a></p>
     '''
 
+def is_moderator(sender):
+    identity = sender.get('identity', {})
+    badges = identity.get('badges', [])
+    for badge in badges:
+        if badge.get('type') == 'moderator':
+            return True
+    return False
+
 @app.route('/webhook', methods=['POST', 'GET'])
 def webhook():
-    """Receive webhook data from Kick"""
+    global stream_owner
     
-    if request.method == 'POST':
-        
+    if request.method == 'POST':   
         # Parse JSON data
         data = request.json or {}
         print(data)
         content = data['content']
-        print(content)
+        sender = data.get('sender', {})
+        sender_username = sender.get('username', '')
+        if (
+            sender_username.lower() == stream_owner.lower() or is_moderator(sender)
+        ) and content.startswith('!calories'):
+            try:
+                value = content.split(' ', 1)[1]
+                if value.isdigit():
+                    value = int(value)  # or int(value) if you only want integers
+
+                conn = get_db_connection()
+                c = conn.cursor()
+                # Fetch the current value
+                x = c.execute('SELECT value FROM calories WHERE id = 1')
+                print(x)
+                row = c.fetchone()
+                current = int(row[0]) if row and row[0] is not None else 0
+
+                new_total = current + value
+
+                # Update the database with the new total
+                c.execute('UPDATE calories SET value = %s WHERE id = 1', (str(new_total),))
+                conn.commit()
+                conn.close()
+                print(f"Calories updated: {current} + {value} = {new_total}")
+            except (IndexError, ValueError):
+                print("Invalid or missing value for !calories command")
         return 'ok'
     
     else:  # GET method
