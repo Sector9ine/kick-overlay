@@ -19,7 +19,8 @@
             padding: 10px;
             width: 25%;
             box-sizing: border-box;
-            text-align: center;  /* optional: center text inside the box */
+            text-align: center;
+            margin: 10px 0 0 0; /* top margin only */
         }
 
     </style>
@@ -31,7 +32,37 @@
     </div>
 
     <script>
-
-    </script>
+window.onload = function() {
+    const params = new URLSearchParams(window.location.search);
+    const pos = params.get('pos');
+    const box = document.querySelector('.test-message');
+    if (pos === 'topright') {
+        box.style.position = 'absolute';
+        box.style.top = '20px';
+        box.style.right = '20px';
+        box.style.left = '';
+        box.style.bottom = '';
+    } else if (pos === 'bottomright') {
+        box.style.position = 'absolute';
+        box.style.bottom = '20px';
+        box.style.right = '20px';
+        box.style.top = '';
+        box.style.left = '';
+    } else if (pos === 'bottomleft') {
+        box.style.position = 'absolute';
+        box.style.bottom = '20px';
+        box.style.left = '20px';
+        box.style.top = '';
+        box.style.right = '';
+    } else {
+        // Default: top left
+        box.style.position = 'absolute';
+        box.style.top = '20px';
+        box.style.left = '20px';
+        box.style.right = '';
+        box.style.bottom = '';
+    }
+};
+</script>
 </body>
 </html> 
